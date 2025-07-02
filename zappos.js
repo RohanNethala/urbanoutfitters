@@ -23,7 +23,9 @@ async function addToCart(page){
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     await waitForSelectorAndClick(page, 'label[for="radio-111385-9142933"]')
-    await waitForSelectorAndClick(page, 'button[type="submit"]')
+    await waitForSelectorAndClick(page, 'button[id="add-to-cart-button"]')
+    await waitForSelectorAndClick(page, 'button[class="bN-z"]')
+    
 }
 
 async function run(){
