@@ -23,23 +23,17 @@ async function givePage(){
     return page;
 }
 
-
-
 async function addToCart(page){
     await new Promise(resolve => setTimeout(resolve, 2000));
-
     await waitForSelectorAndClick(page, 'label[for="radio-111385-9142933"]')
     await new Promise(resolve => setTimeout(resolve, 2000));
     await waitForSelectorAndClick(page, 'button[id="add-to-cart-button"]')
     await waitForSelectorAndClick(page, 'button[class="bN-z"]')
-
-
 }
 
 async function enterGuestEmail(page){
     await page.waitForNavigation()
     await new Promise(resolve => setTimeout(resolve, 2000));
-
     await waitForSelectorAndClick(page, 'input[data-testid="guestEmailInput"]')
     await typeStuffIn(page, 'input[data-testid="guestEmailInput"]', "rnethbusi@gmail.com")
     await new Promise(resolve => setTimeout(resolve, 5000));
@@ -49,11 +43,44 @@ async function enterGuestEmail(page){
     await waitForSelectorAndClick(page, 'button[data-testid="continueAsGuest"]')
 }
 
-async function checkout(page){
+async function shipping(page){
     await page.waitForNavigation()
     await new Promise(resolve => setTimeout(resolve, 2000));
     await waitForSelectorAndClick(page, 'button[data-testid="creditCard"]')
-    await waitForSelectorAndClick(page, 'button[data-testid="continueAsGuest"]')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await typeStuffIn(page, 'input[data-testid="fullName"]', 'Rohan Nethala')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await waitForSelectorAndClick(page, 'button[data-testid="enterAddressManually"]')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await typeStuffIn(page, 'input[data-testid="addressLine1"]', '305 Paxton Way')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await typeStuffIn(page, 'input[data-testid="addressCity"]', 'Glastonbury')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await typeStuffIn(page, 'input[data-testid="addressState"]', 'Connecticut')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await typeStuffIn(page, 'input[data-testid="addressPostalCode"]', '06033')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await typeStuffIn(page, 'input[data-testid="addressPhoneNumber"]', '860-471-5688')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await waitForSelectorAndClick(page, 'button[data-testid="continueToPaymentButton"]')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await waitForSelectorAndClick(page, 'button[data-testid="continueToPaymentButton"]')
+}
+
+async function payment(page){
+    await page.waitForNavigation()
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="nameOnCard"]', 'Rohan Nethala')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="cardNumber"]', '4111111111111111')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="expMonthYear"]', '12/25')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="cvv"]', '123')
+    await waitForSelectorAndClick(page, 'button[data-testid="reviewYourOrderButton"]')
+    await page.waitForNavigation()
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await waitForSelectorAndClick(page, 'button[data-testid="placeOrderButton"]')
 }
 
 async function run(){
@@ -61,6 +88,8 @@ async function run(){
     await page.goto(URL)
     await addToCart(page)
     await enterGuestEmail(page)
+    await shipping(page)
+    await payment(page)
 }
 
 run();
