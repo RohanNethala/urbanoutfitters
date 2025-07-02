@@ -49,11 +49,30 @@ async function enterGuestEmail(page){
     await waitForSelectorAndClick(page, 'button[data-testid="continueAsGuest"]')
 }
 
-async function checkout(page){
+async function shipping(page){
     await page.waitForNavigation()
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     await waitForSelectorAndClick(page, 'button[data-testid="creditCard"]')
-    await waitForSelectorAndClick(page, 'button[data-testid="continueAsGuest"]')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    // await waitForSelectorAndClick(page, 'button[data-testid="continueAsGuest"]')
+    await typeStuffIn(page, 'input[data-testid="fullName"]', 'Rohan Nethala')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await waitForSelectorAndClick(page, 'button[data-testid="enterAddressManually"]')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="addressLine1"]', '305 Paxton Way')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="addressCity"]', 'Glastonbury')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="addressState"]', 'Connecticut')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="addressPostalCode"]', '06033')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    await typeStuffIn(page, 'input[data-testid="addressPhoneNumber"]', '860-471-5688')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await waitForSelectorAndClick(page, 'button[data-testid="continueToPaymentButton"]')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await waitForSelectorAndClick(page, 'button[data-testid="continueToPaymentButton"]')
 }
 
 async function run(){
@@ -61,6 +80,7 @@ async function run(){
     await page.goto(URL)
     await addToCart(page)
     await enterGuestEmail(page)
+    await shipping(page)
 }
 
 run();
