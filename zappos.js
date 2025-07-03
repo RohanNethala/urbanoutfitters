@@ -5,6 +5,12 @@ puppeteer.use(StealthPlugin());
 
 const URL = "https://www.zappos.com/p/mens-nike-sportswear-icon-futura-tee-magic-ember/product/9142933/color/842746"
 
+let addToCartButtons = ['label[for="radio-111385-9142933"]', 'button[id="add-to-cart-button"]', 'button[class="OM-z"]']
+let guestEmailInputs = [['input[data-testid="guestEmailInput"]', 'rnethbusi@gmail.com'], ['input[data-testid="guestConfirmEmailInput"]', 'rnethbusi@gmail.com']]
+let inputs_for_shipping = [['input[data-testid="addressLine1"]', '305 Paxton Way'], ['input[data-testid="addressCity"]', 'Glastonbury'], ['input[data-testid="addressState"]', 'Connecticut'], ['input[data-testid="addressPostalCode"]', '06033'], ['input[data-testid="addressPhoneNumber"]', '860-471-5688']]
+let inputs_for_payment = [['input[data-testid="nameOnCard"]', 'Rohan Nethala'], ['input[data-testid="cardNumber"]', '4111111111111111'], ['input[data-testid="expMonthYear"]', '12/25'], ['input[data-testid="cvv"]', '123']]
+let buttons_for_payment = ['button[data-testid="reviewYourOrderButton"]', 'button[data-testid="placeOrderButton"]']
+
 function waitForSelectorAndClick(page, selector){
     page.waitForSelector(selector).then(() => {
         page.click(selector)
@@ -25,62 +31,56 @@ async function givePage(){
 
 async function addToCart(page){
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await waitForSelectorAndClick(page, 'label[for="radio-111385-9142933"]')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await waitForSelectorAndClick(page, 'button[id="add-to-cart-button"]')
-    await waitForSelectorAndClick(page, 'button[class="bN-z"]')
+    for (let i = 0; i < addToCartButtons.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await waitForSelectorAndClick(page, addToCartButtons[i])
+    }
 }
 
 async function enterGuestEmail(page){
     await page.waitForNavigation()
     await new Promise(resolve => setTimeout(resolve, 2000));
     await waitForSelectorAndClick(page, 'input[data-testid="guestEmailInput"]')
-    await typeStuffIn(page, 'input[data-testid="guestEmailInput"]', "rnethbusi@gmail.com")
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    await typeStuffIn(page, 'input[data-testid="guestConfirmEmailInput"]', "rnethbusi@gmail.com")
+    for (let i = 0; i < guestEmailInputs.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await typeStuffIn(page, guestEmailInputs[i][0], guestEmailInputs[i][1])
+    }
     await new Promise(resolve => setTimeout(resolve, 2000));
-    await waitForSelectorAndClick(page, 'button[data-testid="guestSubscriptionCheckbox"]')
     await waitForSelectorAndClick(page, 'button[data-testid="continueAsGuest"]')
 }
 
 async function shipping(page){
     await page.waitForNavigation()
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     await waitForSelectorAndClick(page, 'button[data-testid="creditCard"]')
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     await typeStuffIn(page, 'input[data-testid="fullName"]', 'Rohan Nethala')
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
     await waitForSelectorAndClick(page, 'button[data-testid="enterAddressManually"]')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await typeStuffIn(page, 'input[data-testid="addressLine1"]', '305 Paxton Way')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await typeStuffIn(page, 'input[data-testid="addressCity"]', 'Glastonbury')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await typeStuffIn(page, 'input[data-testid="addressState"]', 'Connecticut')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await typeStuffIn(page, 'input[data-testid="addressPostalCode"]', '06033')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await typeStuffIn(page, 'input[data-testid="addressPhoneNumber"]', '860-471-5688')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await waitForSelectorAndClick(page, 'button[data-testid="continueToPaymentButton"]')
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    await waitForSelectorAndClick(page, 'button[data-testid="continueToPaymentButton"]')
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    for (let i = 0; i < inputs_for_shipping.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await typeStuffIn(page, inputs_for_shipping[i][0], inputs_for_shipping[i][1])
+    }
+    for (let i = 0; i < 2; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await waitForSelectorAndClick(page, 'button[data-testid="continueToPaymentButton"]')
+    }
 }
 
 async function payment(page){
     await page.waitForNavigation()
     await new Promise(resolve => setTimeout(resolve, 5000));
-    await typeStuffIn(page, 'input[data-testid="nameOnCard"]', 'Rohan Nethala')
+    for (let i = 0; i < inputs_for_payment.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await typeStuffIn(page, inputs_for_payment[i][0], inputs_for_payment[i][1])
+    }
     await new Promise(resolve => setTimeout(resolve, 5000));
-    await typeStuffIn(page, 'input[data-testid="cardNumber"]', '4111111111111111')
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    await typeStuffIn(page, 'input[data-testid="expMonthYear"]', '12/25')
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    await typeStuffIn(page, 'input[data-testid="cvv"]', '123')
-    await waitForSelectorAndClick(page, 'button[data-testid="reviewYourOrderButton"]')
-    await page.waitForNavigation()
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    await waitForSelectorAndClick(page, 'button[data-testid="placeOrderButton"]')
+    for (let i = 0; i < buttons_for_payment.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await waitForSelectorAndClick(page, buttons_for_payment[i])
+        await page.waitForNavigation()
+    }
 }
 
 async function run(){
